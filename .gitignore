@@ -1,0 +1,3 @@
+.venv/
+nginx.json
+__pycache__/
