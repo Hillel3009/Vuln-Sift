@@ -4,6 +4,8 @@ import argparse
 from pathlib import Path
 
 from vulnsift.enrich import enrich
+from vulnsift.prioritize import prioritize, sort_key
+from vulnsift.report import show
 from vulnsift.trivy import load_findings
 
 
@@ -15,16 +17,15 @@ def main() -> None:
     parser.add_argument(
         "report", type=Path, help="Trivy JSON report (trivy image -f json -o report.json IMAGE)"
     )
+    parser.add_argument("--top", type=int, default=15, help="How many findings to show")
     args = parser.parse_args()
 
     findings = load_findings(args.report)
-    print(f"{len(findings)} unique CVEs, fetching EPSS and KEV data...")
+    print(f"Fetching EPSS and KEV data for {len(findings)} CVEs...")
     enrich(findings)
 
-    in_kev = [f for f in findings if f.kev]
-    print(f"{len(in_kev)} known exploited (KEV): {', '.join(f.cve for f in in_kev)}")
+    for f in findings:
+        prioritize(f)
+    findings.sort(key=sort_key)
 
-    top = sorted(findings, key=lambda f: f.epss or 0, reverse=True)[:5]
-    print("\nTop 5 by EPSS:")
-    for f in top:
-        print(f"  {f.cve:<18} {f.epss or 0:>7.2%}  {f.severity}")
+    show(findings, args.report.name, args.top)
