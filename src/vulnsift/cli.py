@@ -1,9 +1,9 @@
 """Command-line entry point."""
 
 import argparse
-from collections import Counter
 from pathlib import Path
 
+from vulnsift.enrich import enrich
 from vulnsift.trivy import load_findings
 
 
@@ -18,12 +18,13 @@ def main() -> None:
     args = parser.parse_args()
 
     findings = load_findings(args.report)
-    print(f"{len(findings)} unique CVEs")
-    for severity, count in Counter(f.severity for f in findings).most_common():
-        print(f"  {severity:<8} {count}")
+    print(f"{len(findings)} unique CVEs, fetching EPSS and KEV data...")
+    enrich(findings)
 
-    grouped = [f for f in findings if len(f.packages) > 1]
-    print(f"\n{len(grouped)} CVEs affect several packages")
-    if grouped:
-        example = grouped[0]
-        print(f"  e.g. {example.cve}: {', '.join(example.packages)}")
+    in_kev = [f for f in findings if f.kev]
+    print(f"{len(in_kev)} known exploited (KEV): {', '.join(f.cve for f in in_kev)}")
+
+    top = sorted(findings, key=lambda f: f.epss or 0, reverse=True)[:5]
+    print("\nTop 5 by EPSS:")
+    for f in top:
+        print(f"  {f.cve:<18} {f.epss or 0:>7.2%}  {f.severity}")
