@@ -28,12 +28,17 @@ def fetch_kev(client: httpx.Client) -> set[str]:
     return {item["cveID"] for item in resp.json()["vulnerabilities"]}
 
 
-def enrich(findings: list[Finding]) -> None:
+def enrich(findings: list[Finding], client: httpx.Client | None = None) -> None:
     """Fill the epss and kev fields of each finding, in place."""
     cves = [f.cve for f in findings]
-    with httpx.Client(timeout=60) as client:
+    owns_client = client is None
+    client = client or httpx.Client(timeout=60)
+    try:
         epss = fetch_epss(cves, client)
         kev = fetch_kev(client)
+    finally:
+        if owns_client:
+            client.close()
 
     for f in findings:
         f.epss = epss.get(f.cve)
