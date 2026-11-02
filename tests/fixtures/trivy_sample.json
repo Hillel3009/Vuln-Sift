@@ -1,0 +1,45 @@
+{
+    "ArtifactName": "example/app:1.0",
+    "Results": [
+        {
+            "Target": "example/app:1.0 (debian 12.5)",
+            "Vulnerabilities": [
+                {
+                    "VulnerabilityID": "CVE-2023-38545",
+                    "PkgName": "curl",
+                    "InstalledVersion": "7.88.1-10",
+                    "FixedVersion": "7.88.1-10+deb12u4",
+                    "Severity": "CRITICAL",
+                    "Title": "curl: SOCKS5 heap buffer overflow"
+                },
+                {
+                    "VulnerabilityID": "CVE-2023-38545",
+                    "PkgName": "libcurl4",
+                    "InstalledVersion": "7.88.1-10",
+                    "FixedVersion": "7.88.1-10+deb12u4",
+                    "Severity": "CRITICAL",
+                    "Title": "curl: SOCKS5 heap buffer overflow"
+                },
+                {
+                    "VulnerabilityID": "CVE-2023-44487",
+                    "PkgName": "libnghttp2-14",
+                    "InstalledVersion": "1.52.0-1",
+                    "FixedVersion": "",
+                    "Severity": "HIGH",
+                    "Title": "HTTP/2 rapid reset"
+                },
+                {
+                    "VulnerabilityID": "TEMP-0841856-B18BAF",
+                    "PkgName": "bash",
+                    "InstalledVersion": "5.2.15-2",
+                    "Severity": "LOW",
+                    "Title": "Debian temporary id"
+                }
+            ]
+        },
+        {
+            "Target": "app/package-lock.json",
+            "Vulnerabilities": null
+        }
+    ]
+}
