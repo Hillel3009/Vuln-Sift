@@ -54,7 +54,7 @@ vulnsift report.json --top 30
 - [x] Tests and continuous integration
 - [ ] Direct scan command (`vulnsift scan IMAGE`)
 - [ ] AI layer: plain-language explanation and context for each urgent finding
-- [ ] Reports in English, French and Hebrew; compliance exports (EU CRA)
+- [ ] Reports in English, French; compliance exports (EU CRA)
 
 ## License
 
