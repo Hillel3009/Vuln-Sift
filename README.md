@@ -1,4 +1,5 @@
 # VulnSift
+![Tests](https://github.com/Hillel3009/Vuln-Sift/actions/workflows/tests.yml/badge.svg)
 
 **Fix first what attackers actually exploit.**
 
@@ -50,7 +51,7 @@ vulnsift report.json --top 30
 - [x] Trivy report parsing, grouped by CVE
 - [x] EPSS and CISA KEV enrichment
 - [x] Explainable P1–P4 prioritization
-- [ ] Tests and continuous integration
+- [x] Tests and continuous integration
 - [ ] Direct scan command (`vulnsift scan IMAGE`)
 - [ ] AI layer: plain-language explanation and context for each urgent finding
 - [ ] Reports in English, French and Hebrew; compliance exports (EU CRA)
